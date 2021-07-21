@@ -15,7 +15,7 @@ if (userID == null) {
 %>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
 <link rel="stylesheet" href="css/custom.css">
 <title>JSP Ajax 실시간 회원제 채팅 서비스</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -82,7 +82,7 @@ if (userID == null) {
 							+ encodeURIComponent(toID) + '\'">'
 							+ '<td style="width: 150px">' + '<h5>' + lastID
 							+ '</h5></td>' + '<td>' + '<h5>' + chatContent
-							+ '<span class="label label-info">' + '</span>'
+							+ '<span id="unread" class="label label-info">'+'</span>'
 							+ '</h5>' + '<div class="pull-right">' + chatTime
 							+ '</div>' + '</td>' + '</tr>');
 	}
@@ -97,28 +97,8 @@ if (userID == null) {
 <body id="bootstrap-overrides">
 
 
-	<nav class="navbar navbar-default">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-				<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="index.jsp">실시간 회원제 채팅</a>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li><a href="index.jsp">메인</a>
-				<li><a href="find.jsp">친구찾기</a></li>
-				<li class="active"><a href="box.jsp">메시지함<span id="unread" class="label label-info"></span></a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="buton" aria-haspopup="true" aria-expanded="false">회원관리<span class="caret"></span>
-				</a>
-					<ul class="dropdown-menu">
-						<li><a href="logoutAction.jsp">로그아웃</a></li>
-					</ul></li>
-			</ul>
-		</div>
-	</nav>
+	<jsp:include page="nav_list.jsp" flush="false"/>
+	
 	<div class="container">
 		<table class="table" style="margin: 0 auto;">
 			<thead>

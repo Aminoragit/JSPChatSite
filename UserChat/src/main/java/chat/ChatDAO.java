@@ -38,7 +38,7 @@ public class ChatDAO {
 			pstmt.setString(4, fromID);
 			pstmt.setInt(5, Integer.parseInt(chatID));
 			rs = pstmt.executeQuery();
-			System.out.println(rs);
+
 			chatList = new ArrayList<ChatDTO>();
 			while(rs.next()) {
 				ChatDTO chat = new ChatDTO();
@@ -311,6 +311,7 @@ public class ChatDAO {
 		}
 		return -1; // 데이터베이스 오류
 	}
+	
 	
 
 }

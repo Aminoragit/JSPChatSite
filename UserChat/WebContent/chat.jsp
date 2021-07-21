@@ -1,3 +1,4 @@
+<%@page import="java.net.URLDecoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -24,11 +25,17 @@ if (toID == null) {
 	response.sendRedirect("index.jsp");
 	return;
 }
+if(userID.equals(URLDecoder.decode(toID,"UTF-8"))){
+	session.setAttribute("messageType", "오류 메시지");
+	session.setAttribute("messageContent", "커스텀 예외처리(자기 자신에겐 메시지를 보낼수 없습니다.)");
+	response.sendRedirect("index.jsp");
+	return;
+}
 %>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
 <link rel="stylesheet" href="css/custom.css">
 <title>JSP Ajax 실시간 회원제 채팅 서비스</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -139,36 +146,9 @@ if (toID == null) {
 	
 </script>
 </head>
-<body>
+<body id="bootstrap-overrides">
 
-	<nav class="navbar navbar-default">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-				<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="index.jsp">실시간 회원제 채팅</a>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li><a href="index.jsp">메인</a>
-				<li><a href="find.jsp">친구찾기</a></li>
-				<li><a href="box.jsp">메시지함<span id="unread" class="label label-info"></span></a></li>
-			</ul>
-			<%
-			if (userID != null) {
-			%>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="buton" aria-haspopup="true" aria-expanded="false">회원관리<span class="caret"></span>
-				</a>
-					<ul class="dropdown-menu">
-						<li><a href="logoutAction.jsp">로그아웃</a></li>
-					</ul></li>
-			</ul>
-			<%
-			}
-			%>
-		</div>
-	</nav>
+	<jsp:include page="nav_list.jsp" flush="false"/>
 
 	<div class="container bootstrap snippet">
 		<div class="row">

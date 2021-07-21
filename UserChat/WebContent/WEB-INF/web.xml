@@ -24,6 +24,14 @@
 		<url-pattern>/userRegister</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>UserRegisterCheckServlet</servlet-name>
+		<servlet-class>user.UserRegisterCheckServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserRegisterCheckServlet</servlet-name>
+		<url-pattern>/userRegisterCheck</url-pattern>
+	</servlet-mapping>
 
 	<!-- ChatSubmitServlet -->
 	<servlet>

@@ -67,6 +67,8 @@ public class UserDAO {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);
 			rs = pstmt.executeQuery();
+			System.out.println("찾는 아이디:"+userID);
+			System.out.println("rs결과"+rs);
 			if(rs.next() || userID.equals("")) {
 				return 0; //중복 아이디
 			}else {
