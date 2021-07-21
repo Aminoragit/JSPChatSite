@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Context">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Resource">
+          <xs:complexType>
+            <xs:attribute name="name" use="required" />
+            <xs:attribute name="auth" use="required" />
+            <xs:attribute name="type" use="required" />
+            <xs:attribute name="maxTotal" type="xs:integer" use="required" />
+            <xs:attribute name="maxIdle" type="xs:integer" use="required" />
+            <xs:attribute name="maxWaitMillis" type="xs:integer" use="required" />
+            <xs:attribute name="username" use="required" />
+            <xs:attribute name="password" use="required" />
+            <xs:attribute name="driverClassName" use="required" />
+            <xs:attribute name="url" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="path" use="required" />
+      <xs:attribute name="docBase" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
