@@ -51,48 +51,17 @@ UserDTO user = new UserDAO().getUser(userID);
 		function showUnread(result){
 			$('#unread').html(result);
 		}
-		function passwordCheckFunction(){
-			var userPassword1 = $('#userPassword1').val();
-			var userPassword2 = $('#userPassword2').val();
-			if(userPassword1 != userPassword2){
-				$('#passwordCheckMessage').html('비밀번호가 서로 일치하지 않습니다.');
-			} else {
-				$('#passwordCheckMessage').html('');
-			}
-		}
-		function active(){
-			$('.dropdown-menu li:nth-child(1)').addClass('active');
-		}
-		
-		function passwordCorrectFunction(){
-			var userPassword = $('#userPassword').val();
-			$.ajax({
-				 type: "POST",
-				 url: "./userLogin",
-				 data: {
-					 userID: encodeURIComponent('<%=userID%>'),
-					 userPassword:userPassword
-				 },
-				 success: function(result){
-					 if(result ==2){
-						 $('#passwordCheckMessage').html('기존 비밀번호가 일치하지 않습니다.');
-					 } else {
-							$('#passwordCheckMessage').html('');
-					 }
-				 }
-			});
-		}
 	</script>
 </head>
 <body>
 	<jsp:include page="nav_list.jsp" flush="false" />
 
 	<div class="container">
-		<form method="post" action="./userUpdate">
+		<form method="post" action="./userProfile" enctype="multipart/form-data">
 			<table class="table table-bordered table-hover" style="text-align: center; border: 1px solid #ddd;">
 				<thead>
 					<tr>
-						<th colspan="2"><h4>회원정보 수정 양식</h4></th>
+						<th colspan="2"><h4>프로필 수정 양식</h4></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -102,54 +71,27 @@ UserDTO user = new UserDAO().getUser(userID);
 							<h5><%=user.getUserID()%></h5> <input type="hidden" name="userID" value="<%=user.getUserID()%>">
 						</td>
 					</tr>
+
 					<tr>
-						<td style="width: 110px;"><h5>기존 비밀번호</h5></td>
-						<td colspan="2"><input onkeyup="passwordCorrectFunction();" class="form-control" type="password" id="userPassword" name="userPassword" maxlength="20" placeholder="기존 비밀번호를 입력하세요."></td>
-					</tr>
-					<tr>
-						<td style="width: 110px;"><h5>변경할 비밀번호</h5></td>
-						<td colspan="2"><input onkeyup="passwordCheckFunction();" class="form-control" type="password" id="userPassword1" name="userPassword1" maxlength="20" placeholder="비밀번호를 입력하세요."></td>
-					</tr>
-					<tr>
-						<td style="width: 110px;"><h5>변경할 비밀번호 확인</h5></td>
-						<td colspan="2"><input onkeyup="passwordCheckFunction();" class="form-control" type="password" id="userPassword2" name="userPassword2" maxlength="20" placeholder="비밀번호 확인를 입력하세요."></td>
-					</tr>
-					<tr>
-						<td style="width: 110px;"><h5>이름</h5></td>
-						<td colspan="2"><input class="form-control" type="text" id="userName" name="userName" maxlength="20" placeholder="이름을 입력하세요." value="<%=user.getUserName()%>"></td>
-					</tr>
-					<tr>
-						<td style="width: 110px;"><h5>나이</h5></td>
-						<td colspan="2"><input class="form-control" type="number" id="userAge" name="userAge" maxlength="20" placeholder="나이을 입력하세요." value="<%=user.getUserAge()%>"></td>
-					</tr>
-					<tr>
-						<td style="width: 110px;"><h5>성별</h5></td>
+						<td style="width: 110px;"><h5>사진 업로드</h5></td>
 						<td colspan="2">
-							<div class="form-group" style="txet-align: center; margin: 0 auto">
-								<div class="btn-group" data-toggle="buttons">
-									<label class="btn btn-primary <%if (user.getUserGender().equals("남자"))
-	out.print("active");%>"> <input type="radio" name="userGender" autocomplete="off" value="남자"
-										<%if (user.getUserGender().equals("남자"))
-	out.print("checked");%>
-									>남자
-									</label> <label class="btn btn-primary <%if (user.getUserGender().equals("여자"))
-	out.print("active");%>"> <input type="radio" name="userGender" autocomplete="off" value="여자"
-										<%if (user.getUserGender().equals("여자"))
-	out.print("checked");%>
-									>여자
-									</label>
-								</div>
+							<input type="file" name="userProfile" class="file" style="visibility: hidden; position: absolute;">
+							<div class="input-group col-xs-12">
+								<span class="input-group-addon">
+									<i class="glyphicon glyphicon-picture"></i>
+								</span>
+								<input type="text" class="form-control input-lg" disabled placeholder="이미지를 업로드하세요.">
+								<span class="input-group-btn">
+									<button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i>파일찾기</button>
+								</span>
 							</div>
 						</td>
 					</tr>
 					<tr>
-						<td style="width: 110px;"><h5>이메일</h5></td>
-						<td colspan="2"><input class="form-control" type="email" id="userEmail" name="userEmail" maxlength="20" placeholder="이메일을 입력하세요." value="<%=user.getUserEmail()%>"></td>
-					</tr>
-					<tr>
 						<td style="text-align: left;" colspan="3">
-							<h5 style="color: red;" id="passwordCheckMessage"></h5> <input class="btn btn-primary pull-right" type="submit" value="수정">
-						</td>
+							<h5 style="color: red;"></h5>
+							<input class="btn btn-primary pull-right" type="submit" value="등록">
+						</td>      
 					</tr>
 				</tbody>
 			</table>
@@ -212,5 +154,15 @@ else
 	<%
 	}
 	%>
+	<!--  파일 찾기(class=browse)를 누르면 작동하는 부분 -->
+	<script type="text/javascript">
+		$(document).on('click', '.browse', function(){
+			var file = $(this).parent().parent().parent().find('.file');
+			file.trigger('click');
+		});
+		$(document).on('change', '.file', function(){
+			$(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+		})
+	</script>
 </body>
 </html>

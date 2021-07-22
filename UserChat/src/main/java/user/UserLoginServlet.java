@@ -1,11 +1,16 @@
 package user;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import AES256.AES256Util;
 
 
 @WebServlet("/UserLoginServelet")
@@ -16,7 +21,9 @@ public class UserLoginServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		String userID = request.getParameter("userID");
-		String userPassword = request.getParameter("userPassword");
+		String	userPassword = request.getParameter("userPassword");
+		
+			
 		if(userID==null|| userID.equals("") || userPassword==null||userPassword.equals("")) {
 			request.getSession().setAttribute("messageType", "오류 메시지");
 			request.getSession().setAttribute("messageContent", "모든 내용을 입력해주세요");
@@ -42,6 +49,6 @@ public class UserLoginServlet extends HttpServlet {
 			request.getSession().setAttribute("messageType", "오류 메시지");
 			request.getSession().setAttribute("messageContent", "DB 에러 발생.");
 			response.sendRedirect("login.jsp");
-		}		
+		}
 	}
 }

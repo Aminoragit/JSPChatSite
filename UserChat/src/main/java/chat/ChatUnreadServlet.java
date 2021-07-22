@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 //특정한 사용자가 현재까지 읽지않은 메시지 호출
 @WebServlet("/ChatUnreadServlet")
@@ -20,10 +21,15 @@ public class ChatUnreadServlet extends HttpServlet {
 		String userID = request.getParameter("userID");
 		if(userID==null || userID.equals("")) {
 			response.getWriter().write("0");
-		}else {
-			userID=URLDecoder.decode(userID,"UTF-8");
-			response.getWriter().write(new ChatDAO().getAllUnreadChat(userID)+"");
-		}	
+		} else {
+			userID = URLDecoder.decode(userID, "UTF-8");
+			HttpSession session = request.getSession();
+			if(!URLDecoder.decode(userID, "UTF-8").equals((String) session.getAttribute("userID"))) {
+				response.getWriter().write("");
+				return;
+			}
+			response.getWriter().write(new ChatDAO().getAllUnreadChat(userID) + "");
+		}
 	}
 
 }

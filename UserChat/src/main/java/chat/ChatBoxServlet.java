@@ -26,8 +26,12 @@ public class ChatBoxServlet extends HttpServlet {
 			response.getWriter().write("");
 		} else {
 			try {
+				HttpSession session = request.getSession();
+				if(!URLDecoder.decode(userID, "UTF-8").equals((String) session.getAttribute("userID"))) {
+					response.getWriter().write("");
+					return;
+				}
 				userID = URLDecoder.decode(userID, "UTF-8");
-				
 				response.getWriter().write(getBox(userID));
 			} catch (Exception e) {
 				response.getWriter().write("");
@@ -40,7 +44,7 @@ public class ChatBoxServlet extends HttpServlet {
 		result.append("{\"result\":[");
 		ChatDAO chatDAO = new ChatDAO();
 		ArrayList<ChatDTO> chatList = chatDAO.getBox(userID);
-		System.out.println("userID 체크입니다 : getBox에서 실행한 userID== "+userID);
+		//System.out.println("userID 체크입니다 : getBox에서 실행한 userID== "+userID);
 		if(chatList.size() == 0) return "";
 		//기존의것은 가장 오래된순이였고 이것을 반대로만 하면 최신순으로 바뀐다.
 		//for (int i = 0; i < chatList.size(); i++) {

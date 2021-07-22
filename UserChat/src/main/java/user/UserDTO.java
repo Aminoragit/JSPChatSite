@@ -1,6 +1,6 @@
 package user;
 
-public class UserDto {
+public class UserDTO {
 	String userID;
 	String userPassword;
 	String userName;
@@ -8,6 +8,15 @@ public class UserDto {
 	String userGender;
 	String userEmail;
 	String userProfile;
+	String salt;
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 
 	public String getUserID() {
 		return userID;

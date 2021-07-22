@@ -73,7 +73,7 @@
 				<tbody>
 					<tr>
 						<td style="width: 110px;"><h5>아이디</h5></td>
-						<td><input class="form-control" type="text" id="userID" name="userID" maxlength="20" placeholder="아이드를 입력하세요."></td>
+						<td><input class="form-control" type="text" id="userID" name="userID" maxlength="20" placeholder="아이디를 입력하세요."></td>
 						<td style="width: 110px;"><button class="btn btn-primary" onclick="registerCheckFunction();" type="button">중복체크</button></td>
 					</tr>
 					<tr>
@@ -101,7 +101,7 @@
 										<input type="radio" name="userGender" autocomplete="off" value="남자" checked>남자
 									</label>
 									<label class="btn btn-primary">
-										<input type="radio" name="userGender" autocomplete="off" value="여자" checked>여자
+										<input type="radio" name="userGender" autocomplete="off" value="여자" >여자
 									</label>
 								</div>
 							</div>

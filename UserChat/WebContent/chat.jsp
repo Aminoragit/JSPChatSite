@@ -1,4 +1,5 @@
 <%@page import="java.net.URLDecoder"%>
+<%@page import="user.UserDAO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -31,6 +32,8 @@ if(userID.equals(URLDecoder.decode(toID,"UTF-8"))){
 	response.sendRedirect("index.jsp");
 	return;
 }
+String fromProfile = new UserDAO().getProfile(userID);
+String toProfile = new UserDAO().getProfile(toID);
 %>
 
 <meta charset="UTF-8">
@@ -48,24 +51,26 @@ if(userID.equals(URLDecoder.decode(toID,"UTF-8"))){
 	}
 	<!-- 일단 insert는 되는거 보니까 insert 문제는 아닌것 같고 -->
 	function submitFunction(){
-		var fromID= '<%=userID%> ';
-		var toID= '<%=toID%>';
+		var fromID= '<%= userID%> ';
+		var toID= '<%= toID%>';
 		var chatContent = $("#chatContent").val();
 		$.ajax({
 			type : "POST",
 			url : "./chatSubmitServlet",
 			data : {
-				fromID : encodeURIComponent(fromID),
+				fromID : encodeURIComponent(fromID).replace(" ","").replace("&npsp;",""),
 				toID : encodeURIComponent(toID),
 				chatContent : encodeURIComponent(chatContent)
 			},
 			success : function(result) {
+				console.log(result);
+				console.log(fromID,toID,chatContent);
 				if (result == 1) {
-					autoClosingAlert("#successMessage", 2000);
+					autoClosingAlert("#successMessage", 4000);
 				} else if (result == 0) {
-					autoClosingAlert("#dangerMessage", 2000);
+					autoClosingAlert("#dangerMessage", 4000);
 				} else {
-					autoClosingAlert("#warningMessage", 2000);
+					autoClosingAlert("#warningMessage", 4000);
 				}
 			}
 		});
@@ -97,19 +102,35 @@ if(userID.equals(URLDecoder.decode(toID,"UTF-8"))){
 		});
 	}
 	function addChat(chatName, chatContent, chatTime) {
-	$('#chatList')
+		if(chatName=='나'){
+		$('#chatList')
 				.append(
 						'<div class="row">'
 								+ '<div class="col-lg-12">'
 								+ '<div class="media">'
 								+ '<a class="pull-left" href="#">'
-								+ '<img class="media-object img-circle" style="width:30px; height:30px;" src="images/anonymous.png" alt="">'
+								+ '<img class="media-object img-circle" style="width:30px; height:30px;" src="<%= fromProfile%>.png" alt="">'
 								+ '</a>' + '<div class="media-body">'
 								+ '<h4 class="media-heading">' + chatName
 								+ '<span class="small pull-right">' + chatTime
 								+ '</span>' + '</h4>' + '<p>' + chatContent
 								+ '</p>' + '</div>' + '</div>' + '</div>'
 								+ '</div>' + '<hr>');
+		}else{
+			$('#chatList')
+			.append(
+					'<div class="row">'
+							+ '<div class="col-lg-12">'
+							+ '<div class="media">'
+							+ '<a class="pull-left" href="#">'
+							+ '<img class="media-object img-circle" style="width:30px; height:30px;" src="<%= toProfile%>.png" alt="">'
+							+ '</a>' + '<div class="media-body">'
+							+ '<h4 class="media-heading">' + chatName
+							+ '<span class="small pull-right">' + chatTime
+							+ '</span>' + '</h4>' + '<p>' + chatContent
+							+ '</p>' + '</div>' + '</div>' + '</div>'
+							+ '</div>' + '<hr>');
+		}
 		$('#chatList').scrollTop($('#chatList')[0].scrollHeight);
 <%System.out.println("addChat종료");%>
 	}

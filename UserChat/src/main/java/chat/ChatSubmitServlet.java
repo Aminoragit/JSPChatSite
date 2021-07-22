@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/ChatSubmitServlet")
 public class ChatSubmitServlet extends HttpServlet {
@@ -16,23 +17,28 @@ public class ChatSubmitServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		String fromID =request.getParameter("fromID");
+		String fromID =request.getParameter("fromID").replace(" ", "").replace("&nbsp;", "").replace("%20", "");
 		String toID = request.getParameter("toID");
 		String chatContent=request.getParameter("chatContent");
+		System.out.println("fromID"+fromID+"toID"+toID+"chatContent"+chatContent);
 		if(fromID == null || fromID.equals("") || toID==null || toID.equals("")||chatContent==null || chatContent.equals(""))
 		{ 
 			response.getWriter().write("0");
 		}else if(fromID.equals(toID)) {
 			response.getWriter().write("-1");
-		}
-			
-		
-		else {
-			fromID=URLDecoder.decode(fromID,"UTF-8");
-			toID=URLDecoder.decode(toID,"UTF-8");
-			chatContent = URLDecoder.decode(chatContent,"UTF-8");
+		} else {
+			fromID = URLDecoder.decode(fromID, "UTF-8");
+			toID = URLDecoder.decode(toID, "UTF-8");
+			HttpSession session = request.getSession();
+			if(!URLDecoder.decode(fromID, "UTF-8").equals((String) session.getAttribute("userID"))) {
+				response.getWriter().write("");
+				return;
+			}
+			chatContent = URLDecoder.decode(chatContent, "UTF-8");
 			response.getWriter().write(new ChatDAO().submit(fromID, toID, chatContent) + "");
 		}
 	}
 
 }
+
+
