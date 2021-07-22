@@ -24,7 +24,7 @@ public class UserProfileServlet extends HttpServlet {
 
 		int fileMaxSize = 10 * 1024 * 1024;
 		String savePath = request.getRealPath("/upload").replaceAll("\\\\", "/");
-		System.out.println(savePath);
+		System.out.println("savePath: "+ savePath);
 		try {
 			multi = new MultipartRequest(request, savePath, fileMaxSize, "UTF-8", new DefaultFileRenamePolicy());
 		} catch (Exception e) {

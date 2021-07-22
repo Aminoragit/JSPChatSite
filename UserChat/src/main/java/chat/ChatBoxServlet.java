@@ -49,21 +49,27 @@ public class ChatBoxServlet extends HttpServlet {
 		//기존의것은 가장 오래된순이였고 이것을 반대로만 하면 최신순으로 바뀐다.
 		//for (int i = 0; i < chatList.size(); i++) {
 		for (int i = chatList.size() - 1; i >= 0; i--) {
-//			String unread = "";
-//			 int getUnread = chatDAO.getUnreadChat(chatList.get(i).getFromID(), userID); 
-//			if(userID.equals(chatList.get(i).getToID().replace(" ","").replace("&nbsp;",""))) {
-//			    unread = Integer.toString(getUnread);
-//				if(unread.equals("0")) unread="";
-//			}
+			String unread = "";
+			String userProfile = "";
+			if(userID.equals(chatList.get(i).getToID())) {
+				unread = chatDAO.getUnreadChat(chatList.get(i).getFromID(), userID) + "";
+				if(unread.equals("0")) unread = "";
+			}
+			if(userID.equals(chatList.get(i).getToID())) {
+				userProfile = new UserDAO().getProfile(chatList.get(i).getFromID());
+			} else {
+				userProfile = new UserDAO().getProfile(chatList.get(i).getToID());
+			}
 			result.append("[{\"value\": \"" + chatList.get(i).getFromID() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getToID() + "\"},");
 			result.append("{\"value\": \"" + chatList.get(i).getChatContent() + "\"},");
-			result.append("{\"value\": \"" + chatList.get(i).getChatTime() + "\"}]");
-		//위의 for문이 변경됬으므로 바꿔줘야한다.
-			//기존:	if(i != chatList.size() -1) result.append(",");
+			result.append("{\"value\": \"" + chatList.get(i).getChatTime() + "\"},");
+			result.append("{\"value\": \"" + unread + "\"},");
+			result.append("{\"value\": \"" + userProfile + "\"}]");
 			if(i != 0) result.append(",");
 		}
 		result.append("], \"last\":\"" + chatList.get(chatList.size() - 1).getChatID() + "\"}");
 		return result.toString();
 	}
+
 }

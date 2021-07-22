@@ -109,7 +109,7 @@ String toProfile = new UserDAO().getProfile(toID);
 								+ '<div class="col-lg-12">'
 								+ '<div class="media">'
 								+ '<a class="pull-left" href="#">'
-								+ '<img class="media-object img-circle" style="width:30px; height:30px;" src="<%= fromProfile%>.png" alt="">'
+								+ '<img class="media-object img-circle" style="width:30px; height:30px;" src="<%= fromProfile%>" alt="">'
 								+ '</a>' + '<div class="media-body">'
 								+ '<h4 class="media-heading">' + chatName
 								+ '<span class="small pull-right">' + chatTime
@@ -123,7 +123,7 @@ String toProfile = new UserDAO().getProfile(toID);
 							+ '<div class="col-lg-12">'
 							+ '<div class="media">'
 							+ '<a class="pull-left" href="#">'
-							+ '<img class="media-object img-circle" style="width:30px; height:30px;" src="<%= toProfile%>.png" alt="">'
+							+ '<img class="media-object img-circle" style="width:30px; height:30px;" src="<%= toProfile%>" alt="">'
 							+ '</a>' + '<div class="media-body">'
 							+ '<h4 class="media-heading">' + chatName
 							+ '<span class="small pull-right">' + chatTime

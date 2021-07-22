@@ -69,22 +69,33 @@ if (userID == null) {
 					}
 					addBox(result[i][0].value, result[i][1].value.replace(" ",
 							"").replace("&nbsp;", ""), result[i][2].value,
-							result[i][3].value);
+							result[i][3].value,result[i][5].value);
 				}
 			}
 		});
 	}
 
 	//화면에 실제 메시지함을 출력해주는 부분
-	function addBox(lastID, toID, chatContent, chatTime) {
-			$('#boxTable').append(
-					'<tr onclick="location.href=\'chat.jsp?toID='
-							+ encodeURIComponent(toID) + '\'">'
-							+ '<td style="width: 150px">' + '<h5>' + lastID
-							+ '</h5></td>' + '<td>' + '<h5>' + chatContent
-							+ '<span id="unread" class="label label-info">'+'</span>'
-							+ '</h5>' + '<div class="pull-right">' + chatTime
-							+ '</div>' + '</td>' + '</tr>');
+	function addBox(lastID, toID, chatContent, chatTime,profile) {
+		$('#boxTable').append(
+				'<tr onclick="location.href=\'chat.jsp?toID=' + 
+				encodeURIComponent(toID) + 
+				'\'">' +
+				'<td style="width: 150px">' +
+				'<img class="media-object img-circle" style="margin: 0 auto; max-width: 40px; max-height: 40px;" src="' + profile + '">' +
+				'<h5>' +
+				lastID +
+				'</h5></td>' +
+				'<td>' +
+				'<h5>' +
+				chatContent +
+				'</h5>' +
+				'<div class="pull-right">' +
+				chatTime +
+				'</div>' +
+				'</td>' +
+				'</tr>'
+			);
 	}
 
 	function getInfiniteBox() {

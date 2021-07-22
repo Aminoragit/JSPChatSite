@@ -58,20 +58,20 @@ UserDTO user = new UserDAO().getUser(userID);
 
 	<div class="container">
 		<form method="post" action="./userProfile" enctype="multipart/form-data">
-			<table class="table table-bordered table-hover" style="text-align: center; border: 1px solid #ddd;">
+			<table class="table table-bordered table-hover" style="text-align: center; border: 1px solid #ddd;"> 
 				<thead>
 					<tr>
-						<th colspan="2"><h4>프로필 수정 양식</h4></th>
+						<th colspan="2"><h4>프로필사진 수정 양식</h4></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td style="width: 110px;"><h5>아이디</h5></td>
 						<td>
-							<h5><%=user.getUserID()%></h5> <input type="hidden" name="userID" value="<%=user.getUserID()%>">
+							<h5><%= user.getUserID() %></h5>
+							<input type="hidden" name="userID" value="<%= user.getUserID() %>">
 						</td>
 					</tr>
-
 					<tr>
 						<td style="width: 110px;"><h5>사진 업로드</h5></td>
 						<td colspan="2">
@@ -98,33 +98,31 @@ UserDTO user = new UserDAO().getUser(userID);
 		</form>
 	</div>
 	<%
-	String messageContent = null;
-	if (session.getAttribute("messageContent") != null) {
-		messageContent = (String) session.getAttribute("messageContent");
-	}
-	String messageType = null;
-	if (session.getAttribute("messageType") != null) {
-		messageType = (String) session.getAttribute("messageType");
-	}
-	if (messageContent != null) {
+		String messageContent = null;
+		if(session.getAttribute("messageContent") != null){
+			messageContent = (String) session.getAttribute("messageContent");
+		}
+		String messageType = null;
+		if(session.getAttribute("messageType") != null){
+			messageType = (String) session.getAttribute("messageType");
+		}
+		if(messageContent != null){
 	%>
 	<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="vertical-alignment-helper">
 			<div class="modal-dialog vertical-align-center">
-				<div class="modal-content <%if (messageType.equals("오류 메시지"))
-	out.println("panel-warning");
-else
-	out.println("panel-success");%>">
+				<div class="modal-content <% if(messageType.equals("오류 메시지")) out.println("panel-warning"); else out.println("panel-success"); %>">
 					<div class="modal-header panel-heading">
 						<button type="button" class="close" data-dismiss="modal">
-							<span aria-hidden="true">&times</span> <span class="sr-only">Close</span>
+							<span aria-hidden="true">&times</span>
+							<span class="sr-only">Close</span>
 						</button>
 						<h4 class="modal-title">
-							<%=messageType%>
+							<%= messageType %>
 						</h4>
 					</div>
 					<div class="modal-body">
-						<%=messageContent%>
+						<%= messageContent %>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
@@ -134,27 +132,26 @@ else
 		</div>
 	</div>
 	<%
-	session.removeAttribute("messageContent");
-	session.removeAttribute("messageType");
-	}
+		session.removeAttribute("messageContent");
+		session.removeAttribute("messageType");
+		}
 	%>
 	<script type="text/javascript">
 		$('#messageModal').modal("show");
 	</script>
 	<%
-	if (userID != null) {
+		if(userID != null){
 	%>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			getUnread();
 			getInfiniteUnread();
-			active();
+
 		});
 	</script>
 	<%
-	}
+		}
 	%>
-	<!--  파일 찾기(class=browse)를 누르면 작동하는 부분 -->
 	<script type="text/javascript">
 		$(document).on('click', '.browse', function(){
 			var file = $(this).parent().parent().parent().find('.file');

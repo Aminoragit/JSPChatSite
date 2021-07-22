@@ -211,7 +211,6 @@ public class UserDAO {
 		try {
 			aes256encrypt = new AES256Util();
 		} catch (UnsupportedEncodingException e3) {
-			// TODO Auto-generated catch block
 			e3.printStackTrace();
 		};
 		String realPassword=null;
@@ -281,10 +280,11 @@ public class UserDAO {
 			pstmt.setString(1, userID);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				if(rs.getString("userProfile").equals("")) {
+				if(rs.getString("userProfile").equals(null)) {
 					return "http://localhost:8080/UserChat/images/anonymous.png";
+				}else {
+					return "http://localhost:8080/UserChat/upload/" +rs.getString("userProfile");
 				}
-				return "http://localhost:8080/UserChat/upload/" + rs.getString("userProfile");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
